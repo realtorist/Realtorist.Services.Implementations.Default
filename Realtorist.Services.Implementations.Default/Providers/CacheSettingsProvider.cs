@@ -20,7 +20,7 @@ namespace Realtorist.Services.Implementations.Default.Providers
             _settingsDataAccess = settingsDataAccess ?? throw new ArgumentNullException(nameof(settingsDataAccess));
         }
 
-        public async Task<T> GetSettingAsync<T>(string settingType)
+        public async Task<T> GetSettingAsync<T>(string settingType) where T : new()
         {
             if (!_cache.ContainsKey(settingType))
             {
