@@ -21,17 +21,20 @@ namespace Realtorist.Services.Implementations.Default.Communication
     public class EmailClient : IEmailClient
     {
         private readonly ISettingsProvider _settingsProvider;
+        private readonly IEncryptionProvider _encryptionProvider;
         private readonly ILogger _logger;
 
         /// <summary>
         /// Creates new instance of <see cref="EmailClient"/>
         /// </summary>
         /// <param name="settingsProvider">Settings provider</param>
+        /// <param name="encryptionProvider">Encryption provider</param>
         /// <param name="logger">Loggerr</param>
-        public EmailClient(ISettingsProvider settingsProvider, ILogger<EmailClient> logger)
+        public EmailClient(ISettingsProvider settingsProvider, IEncryptionProvider encryptionProvider, ILogger<EmailClient> logger)
         {
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _encryptionProvider = encryptionProvider;
         }
 
         /// <inheritdoc/>
@@ -44,11 +47,13 @@ namespace Realtorist.Services.Implementations.Default.Communication
         /// <inheritdoc/>
         public async Task SendEmailAsync(MailMessage message, SmtpSettings smtpSettings)
         {
+            var password = _encryptionProvider.Decrypt(smtpSettings.Password);
+
             using (var client = new SmtpClient(smtpSettings.Host, smtpSettings.Port)
             {
                 UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(smtpSettings.Username, smtpSettings.Password),
+                Credentials = new NetworkCredential(smtpSettings.Username, password),
                 EnableSsl = smtpSettings.EnableSsl                
             })
             {
