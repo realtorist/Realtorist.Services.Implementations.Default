@@ -37,6 +37,8 @@ namespace Realtorist.Services.Implementations.Default
             services.AddSingletonServiceIfNotRegisteredYet<IEventLogger, EventLogger>();
 
             services.AddTransientServiceIfNotRegisteredYet<ICoordinatesFixer, CoordinatesFixer>();
+            
+            services.AddTransient<IUploadService, FileSystemUploadService>();
         }
     }
 }
