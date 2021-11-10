@@ -7,11 +7,13 @@ using Realtorist.Services.Abstractions.Communication;
 using Realtorist.Services.Abstractions.Events;
 using Realtorist.Services.Abstractions.Geo;
 using Realtorist.Services.Abstractions.Providers;
+using Realtorist.Services.Abstractions.Upload;
 using Realtorist.Services.Implementations.Default.Cache;
 using Realtorist.Services.Implementations.Default.Communication;
 using Realtorist.Services.Implementations.Default.Events;
 using Realtorist.Services.Implementations.Default.Geo;
 using Realtorist.Services.Implementations.Default.Providers;
+using Realtorist.Services.Implementations.Default.Upload;
 
 namespace Realtorist.Services.Implementations.Default
 {
